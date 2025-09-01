@@ -50,10 +50,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         title: Text(widget.taskToEdit != null ? 'Edit Task' : 'Add Task'),
         actions: [
           if (widget.taskToEdit != null)
-            IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: _deleteTask,
-            ),
+            IconButton(icon: const Icon(Icons.delete), onPressed: _deleteTask),
         ],
       ),
       body: Form(
@@ -130,10 +127,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             const SizedBox(height: 24),
 
             // Frequency
-            Text(
-              'Frequency',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Frequency', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             _buildFrequencySelector(),
             const SizedBox(height: 32),
@@ -150,7 +144,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : Text(widget.taskToEdit != null ? 'Update Task' : 'Add Task'),
+                  : Text(
+                      widget.taskToEdit != null ? 'Update Task' : 'Add Task',
+                    ),
             ),
           ],
         ),
@@ -174,7 +170,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       children: frequencies.map((freq) {
         final isSelected = _frequency == freq['value'];
         return ChoiceChip(
-          label: Text(freq['label']!),
+          label: Text(freq['label'] as String),
           selected: isSelected,
           onSelected: (selected) {
             if (selected) {
@@ -230,8 +226,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              widget.taskToEdit != null 
-                  ? 'Task updated successfully!' 
+              widget.taskToEdit != null
+                  ? 'Task updated successfully!'
                   : 'Task added successfully!',
             ),
             backgroundColor: Colors.green,
@@ -261,7 +257,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete Task'),
-        content: Text('Are you sure you want to delete "${widget.taskToEdit!.name}"?'),
+        content: Text(
+          'Are you sure you want to delete "${widget.taskToEdit!.name}"?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -270,7 +268,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              final taskProvider = Provider.of<TaskProvider>(context, listen: false);
+              final taskProvider = Provider.of<TaskProvider>(
+                context,
+                listen: false,
+              );
               await taskProvider.deleteTask(widget.taskToEdit!.id);
               if (mounted) {
                 Navigator.of(context).pop();
